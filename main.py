@@ -10,8 +10,12 @@ def start(message):
     btn1 = types.KeyboardButton('Да')
     btn2 = types.KeyboardButton('Нет')
     markup.row(btn1, btn2)
-    bot.send_message(message.chat.id, f'<em>Приветствую тебя, {message.from_user.first_name}!</em>', parse_mode='html',
-                     reply_markup=markup)
+    bot.send_message(message.chat.id, '')
+    markup = types.InlineKeyboardMarkup()
+    btn1 = types.InlineKeyboardButton('Перейти на сайт', url='https://google.com')
+    btn2 = types.InlineKeyboardButton('Удалить фото', callback_data='delete')
+    markup.row(btn1, btn2)
+    bot.reply_to(message, 'Какое красиво фото!', reply_markup=markup)
     bot.register_next_step_handler(message, on_click)
 
 def on_click(message):
@@ -19,6 +23,9 @@ def on_click(message):
         bot.send_message(message.chat.id, "Хорошо")
     elif message.text == 'Нет':
         bot.send_message(message.chat.id, "Нет, так нет")
+
+
+#Весь код ниже учебный и его стоит поменять/дополнить/реструктуризировать
 
 @bot.message_handler(commands=['help'])
 def start(message):
@@ -50,6 +57,16 @@ def get_photo(message):
 def callback_message(callback):
     if callback.data == 'delete':
         bot.delete_message(callback.message.chat.id, callback.message.message_id - 1)
+
+#@bot.message_handler(commands=['start'])
+#def start(message):
+#    markup = types.ReplyKeyboardMarkup()
+#    btn1 = types.KeyboardButton('Да')
+#    btn2 = types.KeyboardButton('Нет')
+#    markup.row(btn1, btn2)
+#    bot.send_message(message.chat.id, f'<em>Приветствую тебя, {message.from_user.first_name}!</em>', parse_mode='html',
+#                     reply_markup=markup)
+#    bot.register_next_step_handler(message, on_click)
 
 
 
